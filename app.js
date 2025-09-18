@@ -11,6 +11,7 @@ app.get('/version', (req, res) => {
 })
 
 app.get('/health', (req, res) => {
+  // Simple health check endpoint
   res.send('ok')
 })
 
