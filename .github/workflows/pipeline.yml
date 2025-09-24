@@ -46,18 +46,15 @@ jobs:
           curl "$deploy_url"
       - name: Notify Discord on build failure
         if: failure()
-        uses: rjstone/discord-webhook-notify@v2
+        uses: sarisia/actions-status-discord@v1
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          username: Pokedex CI/CD Bot
-          text: Build failed!
-          severity: error
-          color: '#ff0000'
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: "Build failed!"
           description: |
-            **Branch:** ${{ github.ref_name }}
             **Commit:** ${{ github.sha }}
             **Author:** ${{ github.actor }}
-          footer: "Severity: error - Failed at ${{ github.event.head_commit.timestamp }}"
+          color: 0xff0000
 
   tag_release:
     # env.OK_TO_DEPLOY or github.env.OK_TO_DEPLOY do not work, so we use the full condition here
@@ -79,13 +76,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Notify Discord on successful deployment
-        uses: rjstone/discord-webhook-notify@v2
+        uses: sarisia/actions-status-discord@v1
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-          username: Pokedex CI/CD Bot
-          text: New version deployed!
-          severity: info
-          color: '#00ff00'
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: "New version deployed!"
           description: |
             at https://full-stack-open-pokedex-v8dx.onrender.com by ${{ github.actor }}
-          footer: "Severity: info - Deployed at ${{ github.event.head_commit.timestamp }}"
+          color: 0x00ff00
