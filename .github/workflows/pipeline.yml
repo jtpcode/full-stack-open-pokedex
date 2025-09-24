@@ -55,7 +55,7 @@ jobs:
           color: '#ff0000'
           description: |
             **Branch:** ${{ github.ref_name }}
-            **Commit:** `${{ github.sha }}`
+            **Commit:** ${{ github.sha }}
             **Author:** ${{ github.actor }}
           footer: Severity: error - Failed at ${{ github.event.head_commit.timestamp }}
 
