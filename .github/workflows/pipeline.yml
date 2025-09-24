@@ -39,14 +39,14 @@ jobs:
           path: playwright-report/
           retention-days: 30
       - name: Deploy
-        if: env.OK_TO_DEPLOY == 'true'
+        if: ${{ env.OK_TO_DEPLOY == 'true' }}
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           curl "$deploy_url"
 
   tag_release:
-    if: env.OK_TO_DEPLOY == 'true'
+    if: ${{ github.env.OK_TO_DEPLOY == 'true' }}
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
     steps:
