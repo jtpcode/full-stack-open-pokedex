@@ -46,7 +46,8 @@ jobs:
           curl "$deploy_url"
 
   tag_release:
-    if: ${{ github.env.OK_TO_DEPLOY == 'true' }}
+    # env.OK_TO_DEPLOY or github.env.OK_TO_DEPLOY do not work, so we use the full condition here
+    if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
     steps:
