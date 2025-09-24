@@ -35,8 +35,22 @@ jobs:
           path: playwright-report/
           retention-days: 30
       - name: Deploy
+        # Only run this step if the branch is main AND the event is a push (not a pull request)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         env:
           deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
           curl "$deploy_url"
+
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bump version and push tag
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: anothrNick/github-tag-action@1.75.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          DRY_RUN: true
+          WITH_V: true
