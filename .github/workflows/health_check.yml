@@ -13,4 +13,4 @@ jobs:
     steps:
       - uses: jtalk/url-health-check-action@v4
         with:
-          urls: https://full-stack-open-pokedex-v8dx.onrender.com
+          url: https://full-stack-open-pokedex-v8dx.onrender.com
